@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+//    first	second	third	forth
+//10	15.42738622	57.8923793	68.44849748
+//370	210	195	315
+//15.42738622	57.8923793	68.44849748	500
+//210	195	315	345
+
+//    windows.onload = function() {
+                 google.script.run.withFailureHandler(onFailure)
+                   .withSuccessHandler(onSuccess).getSheetDataOfLoading();
+//    var dim2data = google.script.run.getSheetDataOfLoading();
+//    }
+
+    
+    
+    function onSuccess(returnMsg) {
+    
+       var div = document.getElementById('output');
+       div.innerHTML = '시트에 전달성공 ' + returnMsg;
+
+       
+
+    var offsetX = 10
+    var offsetY = 70
+    var totalWidth = 500
+    var totalHieght = 500
+
+//    var svg = d3.select("svg")
+//    svg.attr("width", totalWidth) 
+//    svg.attr("height", totalHieght)
+//        
+//    var g = svg.append("g")
+//    
+    //Create SVG element
+    var g = d3.select("body")
+    .append("svg")
+    .attr("width", totalWidth)
+    .attr("height", totalHieght);
+    
+    g.append("line")
+            .attr("x1", returnMsg[1][0])
+            .attr("x2", returnMsg[3][0])
+            .attr("y1", returnMsg[2][0])
+            .attr("y2", returnMsg[4][0])
+            .attr("stroke", "red")
+            
+    g.append("line")
+            .attr("x1", returnMsg[1][1])
+            .attr("x2", returnMsg[3][1])
+            .attr("y1", returnMsg[2][1])
+            .attr("y2", returnMsg[4][1])
+            .attr("stroke", "orange")
+            
+    g.append("line")
+            .attr("x1", returnMsg[1][2])
+            .attr("x2", returnMsg[3][2])
+            .attr("y1", returnMsg[2][2])
+            .attr("y2", returnMsg[4][2])
+            .attr("stroke", "black")
+            
+    g.append("line")
+            .attr("x1", returnMsg[1][3])
+            .attr("x2", returnMsg[3][3])
+            .attr("y1", returnMsg[2][3])
+            .attr("y2", returnMsg[4][3])
+            .attr("stroke", "gray")
+            
+    
+    //Create and append line
+//    svg.append("line")
+//            .attr("x1", 10)
+//            .attr("x2", 15.42738622)
+//            .attr("y1", 370)
+//            .attr("y2", 210)
+//            .attr("stroke", "black")
+//            
+//    svg.append("line")
+//            .attr("x1", 15.42738622)
+//            .attr("x2", 57.8923793)
+//            .attr("y1", 210)
+//            .attr("y2", 195)
+//            .attr("stroke", "black")
+//            
+//    svg.append("line")
+//            .attr("x1", 57.8923793)
+//            .attr("x2", 68.44849748)
+//            .attr("y1", 195)
+//            .attr("y2", 315)
+//            .attr("stroke", "black")
+//            
+//    svg.append("line")
+//            .attr("x1", 68.44849748)
+//            .attr("x2", 500)
+//            .attr("y1", 315)
+//            .attr("y2", 345)
+//            .attr("stroke", "black")
+//            
+       }
+       
+       function onFailure(error) {
+           var div = document.getElementById('output');
+           div.innerHTML = "ERROR: " + error.message;
+       }
+    
+    
+    
+    </script>
+    <div id="output" style="width: 200px; height: 100px;"></div>
+    </body>
+</html>
+

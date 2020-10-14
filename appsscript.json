@@ -1,0 +1,50 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "PicasaApp",
+      "libraryId": "1RHjbqdEN-WvQxqSFr6hdtECfIqZlEEyCfrxvF4UKnKeVPnRX-dyg0dS7",
+      "version": "22",
+      "developmentMode": true
+    }]
+  },
+  "webapp": {
+    "access": "ANYONE_ANONYMOUS",
+    "executeAs": "USER_DEPLOYING"
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "sheets": {
+    "macros": [{
+      "menuName": "onOpen",
+      "functionName": "onOpen"
+    }, {
+      "menuName": "sendPointToSheet",
+      "functionName": "sendPointToSheet"
+    }, {
+      "menuName": "makeReport",
+      "functionName": "makeReport"
+    }, {
+      "menuName": "getSheetDataOfLoading",
+      "functionName": "getSheetDataOfLoading"
+    }, {
+      "menuName": "extractWsys",
+      "functionName": "extractWsys"
+    }, {
+      "menuName": "drawLoading",
+      "functionName": "drawLoading"
+    }, {
+      "menuName": "drawChart",
+      "functionName": "drawChart"
+    }, {
+      "menuName": "doPMUP",
+      "functionName": "doPMUP"
+    }, {
+      "menuName": "doLoading",
+      "functionName": "doLoading"
+    }, {
+      "menuName": "doInflection",
+      "functionName": "doInflection"
+    }]
+  }
+}

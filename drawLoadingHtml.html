@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+        google.charts.load('current',{packages: ["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        
+        var offsetX = 10
+        var offsetY = 70
+        var totalWidth = 500
+        var totalHieght = 300
+        
+        
+        function drawChart() {
+           var queryString = encodeURIComponent('SELECT L,M');     
+           var url = "https://docs.google.com/spreadsheets/d/1RFTYU8gUyJ8yjaktj30raxTlzYruYndL2K-rPGylbtU";
+           var query = new google.visualization.Query(url + '/gviz/tq?sheet=계산결과&headers=1&tq=' + queryString);
+           query.send(handleQueryResponse);
+        }
+        
+        function handleQueryResponse(response) {
+           if (response.isError()) {
+              alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+              return;
+           }              
+              
+           var raw_data = response.getDataTable();
+           var wrapper = new google.visualization.ChartWrapper({
+              chartType: 'AreaChart',
+//              chartType: 'Table',
+              dataTable: raw_data,
+              options: {'width': 700, 'height': 700, 
+                 'chartArea': {left: 30, top: 10, totalHieght: 500, width: totalWidth }, 
+                 'pointSize': 6, 
+                 'legend': 'right',
+                 'showRowNumber': true},
+              containerId: 'visualization_div'
+           });
+           
+           wrapper.draw();
+        }
+    </script>
+  </head>
+  <body>
+    <h1 style="font-family: Arial; font-size: 28px; margin-left: 5%; margin-top: 30px;">로딩 언로딩률</h1>
+    <div id="visualization_div" style="width: 1000px; height: 600px;"></div>
+  </body>
+</html>
+
+
