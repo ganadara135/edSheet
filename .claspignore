@@ -2,6 +2,6 @@
 *.md
 
 
-*.js
+
 *.ts
 node_modules/

@@ -25,7 +25,8 @@
         
         function drawChart() {
            var queryString = encodeURIComponent('SELECT A, B');     
-           var url = "https://docs.google.com/spreadsheets/d/1RFTYU8gUyJ8yjaktj30raxTlzYruYndL2K-rPGylbtU";
+//           var url = "https://docs.google.com/spreadsheets/d/1RFTYU8gUyJ8yjaktj30raxTlzYruYndL2K-rPGylbtU";
+           var url = "https://docs.google.com/spreadsheets/d/1qPF7G7-6xNIo7vh2ZdKZQ1bdXXmFK6akf5V291ytp3Y";
            var query = new google.visualization.Query(url + '/gviz/tq?sheet=EDChart&headers=1&tq=' + queryString);
            query.send(handleQueryResponse);
         }
@@ -54,7 +55,7 @@
            var wrapper = new google.visualization.ChartWrapper({
              chartType: 'LineChart',
              dataTable: raw_data,
-             options: {'width': 2500,'chartArea': {left: 30, top: 10, height: 500, width: 2320 }, 'pointSize': 6, 'legend': 'right'},
+             options: {'width': 2500,'chartArea': {left: 30, top: 10, height: 450, width: 2320 }, 'pointSize': 6, 'legend': 'right'},
 //             options: {'legend': 'bottom', 'colors': ['#D70005'], 'chartArea': {left: 40, top: 10, width: 450}, 'vAxis': {format: '#,###%', 'viewWindow': {max: 1.05, min: .2}}, 'pointSize': 6},
              containerId: 'visualization_div'
            });

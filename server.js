@@ -21,16 +21,23 @@ function makeReport() {
 //  Logger.log(templateSheet.getSheetName())
   var currentApp = SpreadsheetApp.getActiveSpreadsheet();
   templateSheet.getSheetByName("template").copyTo(currentApp)
+//  currentApp.getName()
+//  Browser.msgBox(currentApp.getActiveSheet().getName())
+//  var reportSheet = currentApp.getSheetByName("template의 사본")
+  var reportSheet = currentApp.getSheetByName("Copy of template")
+//  reportSheet.setName("template")
   
-  var reportSheet = currentApp.getSheetByName("template의 사본")
   var dataSheet = currentApp.getSheetByName("계산결과")
 
   var dim2data = dataSheet.getRange(1, 8,4,4).getValues()
   
   
-  reportSheet.getRange(5, 6).setValue(dim2data[1][3])
-  reportSheet.getRange(5, 8).setValue(dim2data[1][2])
-  reportSheet.getRange(5, 9).setValue(dim2data[3][2])
+  var range = reportSheet.getRange(5, 6)
+  range.setValue(dim2data[1][3])
+  range = reportSheet.getRange(5, 8).setValue(dim2data[1][2])
+  range.setValue(dim2data[1][2])
+  range = reportSheet.getRange(5, 9).setValue(dim2data[3][2])
+  range.setValue(dim2data[3][2])
   
   dataSheet.activate().showSheet()
   
@@ -216,11 +223,11 @@ function doPMUP() {
        return;
   }
   
-  var idxRange = edSheet.getRange(2,11,1,2)  // K 열
+  var idxRange = edSheet.getRange(2,11,1,2)  // K 열, L 열  시작점,종료점
   var idxVal = idxRange.getValues()
   
   var targetRange = edSheet.getRange(1,5)
-  targetRange.setValue("플마")
+  targetRange.setValue("마")  // 원래는 '플마'
   var targetRange = edSheet.getRange(1,6)  
   targetRange.setValue("고저")
   
@@ -236,6 +243,10 @@ function doPMUP() {
 //          edSheet.getRange(i,5).setValue(edSheet.getRange(i-1,5).getValue())
 //    }
 //  }
+  
+  // 기본값 '플마' '마' 채우기
+  var defaultRange = edSheet.getRange(2,5,idxVal[0][0])
+  defaultRange.setValue("마")
   
   var calcRange = edSheet.getRange(idxVal[0][0], 5, idxVal[0][1], 1)   // 5 열, E
   calcRange.setFormula(`=(IF ( D${idxVal[0][0]} = "변곡점",  IF (E${idxVal[0][0]-1} = "마", "플", "마")   , E${idxVal[0][0]-1} ))`);
@@ -327,31 +338,33 @@ function doInflection() {
   
   var vTarget = (vIndexUp - vIndexDn) * 0.5;
   
-  var targetRange = edSheet.getRange(1,4)  // K 열
+  var targetRange = edSheet.getRange(1,4)  
   targetRange.setValue("변곡점")
   var targetRange = edSheet.getRange(2,4,lastRow,1)  
   targetRange.setValue("")
 
-  var difRange = edSheet.getRange(chkVal[0][0], 4, chkVal[0][1], 1)
-  difRange.setFormula(`=(IF (AND(ABS(C${chkVal[0][0]}) > ${vTarget}, ABS(C${chkVal[0][0]-1}) < ${vTarget}),"변곡점"))`);
+  // 시작점에 무조건 플러스 1  해줌, 
+  var difRange = edSheet.getRange(chkVal[0][0]+1, 4, chkVal[0][1]+1, 1)
+  difRange.setFormula(`=(IF (AND(ABS(C${chkVal[0][0]+1}) > ${vTarget}, ABS(C${chkVal[0][0]+1-1}) < ${vTarget}),"변곡점"))`);
   
 }
 
-function drawChart() {
+function drawChart() { 
   var html = HtmlService.createHtmlOutputFromFile("ChartHtml").setHeight(700).setWidth(700);
   SpreadsheetApp.getUi().showModalDialog(html, "범위선택 차트");
 }
 
 function sendPointToSheet(point1, point2) {
+  // 차트는 0 번부터 시작하므로 시트 행과 맞추기 위해서 +2 해준다
   var edSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("EDChart");
   var targetRange = edSheet.getRange(1,11)  // K 열
   targetRange.setValue("시작점")
   var targetRange = edSheet.getRange(2,11)
-  targetRange.setValue(point1)
+  targetRange.setValue(point1+2)
   var targetRange = edSheet.getRange(1,12)  // L 열
   targetRange.setValue("종료점")
   var targetRange = edSheet.getRange(2,12)
-  targetRange.setValue(point2)
+  targetRange.setValue(point2+2)
   return point1 + " / " + point2;
 }
 
@@ -410,4 +423,14 @@ function extractWsys() {
   var newRange = edSheet.getRange(2, 3, lastRow, 1)
   newRange.setFormula("=LEFT(B2,5)");
  
+  
+  var rawSheet = SpreadsheetApp.getActiveSheet();
+  var lastRow = rawSheet.getLastRow();
+  var rawRange = rawSheet.getRange(2,3,lastRow)
+  var rawWsysValue = rawRange.getValues()
+  
+  var copyRange = rawSheet.getRange(2, 2, lastRow)
+  copyRange.setValues(rawWsysValue)
+  var rawRange = rawSheet.getRange(2,3)
+  rawRange.setValue(0)
 }
